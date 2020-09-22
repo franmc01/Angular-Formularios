@@ -1,6 +1,6 @@
 <h4>Formularios <small> Template </small></h4>
 <hr>
-<form autocomplete="off">
+<form autocomplete="off" (ngSubmit)="infoFormulario(formtemplate)" #formtemplate="ngForm">
 
   <div>
 
@@ -10,7 +10,14 @@
 
         <input class="form-control"
                type="text"
-               placeholder="Nombre">
+               name = "nombre"
+               [ngModel]="usuario.nombre"
+               [class.is-invalid]="nombre.invalid && nombre.touched"
+               required
+               minlength="4"
+               placeholder="Nombre"
+               #nombre="ngModel">
+               <small *ngIf="nombre.invalid && nombre.touched" class="text-danger form-text">Este campo es obligatorio</small>
       </div>
     </div>
 
@@ -20,7 +27,14 @@
 
         <input class="form-control"
                type="text"
-               placeholder="Apellido">
+               name="apellido"
+               [ngModel]="usuario.apellido"
+               [class.is-invalid]="apellido.invalid && apellido.touched"
+               required
+               minlength="4"
+               placeholder="Apellido"
+               #apellido="ngModel">
+               <small *ngIf="apellido.invalid && apellido.touched" class="text-danger form-text">Este campo es obligatorio</small>
       </div>
     </div>
 
@@ -32,7 +46,16 @@
 
       <input class="form-control"
              type="email"
-             placeholder="Correo electrónico">
+             name="email"
+             [ngModel]="usuario.email"
+             [class.is-invalid]="email.invalid && email.touched"
+             pattern="[a-z 0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+             required
+             required
+             minlength="4"
+             placeholder="Correo electrónico"
+             #email="ngModel">
+             <small *ngIf="email.invalid && email.touched" class="text-danger form-text">Ingrese un correo válido</small>
     </div>
   </div>
 
