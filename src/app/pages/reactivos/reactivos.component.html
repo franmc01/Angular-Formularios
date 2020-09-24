@@ -1,6 +1,9 @@
+<br>
+<br>
+<br>
 <h4>Formularios <small> Reactivos </small></h4>
 <hr>
-<form autocomplete="off">
+<form autocomplete="off" [formGroup]="formulario" (ngSubmit)="Guardar()">
 
   <div>
 
@@ -10,7 +13,10 @@
 
         <input class="form-control"
                type="text"
-               placeholder="Nombre">
+               placeholder="Nombre"
+               formControlName="name"
+               [class.is-invalid]="nombreNoValido">
+        <small *ngIf="nombreNoValido" class="text-danger">Debe completar este campo</small>
       </div>
     </div>
 
@@ -20,7 +26,10 @@
 
         <input class="form-control"
                type="text"
-               placeholder="Apellido">
+               placeholder="Apellido"
+               formControlName="lastName"
+               [class.is-invalid]="apellidoNoValido">
+               <small *ngIf="apellidoNoValido" class="text-danger">Debe completar este campo</small>
       </div>
     </div>
 
@@ -32,7 +41,10 @@
 
       <input class="form-control"
              type="email"
-             placeholder="Correo electrónico">
+             placeholder="Correo electrónico"
+             formControlName="email"
+             [class.is-invalid]="correoNoValido">
+        <small *ngIf="correoNoValido" class="text-danger">Debe completar este campo con un correo válido</small>
     </div>
   </div>
 
@@ -48,3 +60,19 @@
   </div>
 
 </form>
+
+
+
+<br>
+<hr>
+<pre>
+  Estado del formulario: {{ formulario.valid }}
+  <br>
+  Status: {{ formulario.status }}
+</pre>
+
+
+<pre>
+  Data del formulario <br>
+  {{ formulario.value | json }}
+</pre>
