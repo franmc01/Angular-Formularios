@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-reactivos',
@@ -11,6 +11,7 @@ export class ReactivosComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.crearFormulario();
+    this.cargarDataAlFormulario();
   }
 
   ngOnInit(): void {}
@@ -20,17 +21,12 @@ export class ReactivosComponent implements OnInit {
       // x: ['valorpordefecto', validadoresSincronos, validoresAsync ],
       name: ['', [Validators.required, Validators.minLength(4)]],
       lastName: ['', [Validators.required, Validators.minLength(4)]],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-        ],
-      ],
+      email: [ '', [ Validators.required, Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
       direccion: this.formBuilder.group({
         distrito: ['', [Validators.required, Validators.minLength(4)]],
         ciudad: ['', [Validators.required, Validators.minLength(4)]],
       }),
+      pasatiempos: this.formBuilder.array([])
     });
   }
 
@@ -64,6 +60,19 @@ export class ReactivosComponent implements OnInit {
     );
   }
 
+  get pasatiempos() {
+    return this.formulario.get('pasatiempos') as FormArray;
+  }
+
+
+  agregarPasatiempos() {
+    this.pasatiempos.push(this.formBuilder.control('',));
+  }
+
+  borrarPasatiempos(i) {
+    this.pasatiempos.removeAt(i);
+  }
+
   Guardar() {
     if (this.formulario.invalid) {
       return Object.values(this.formulario.controls).forEach((controls) => {
@@ -75,5 +84,18 @@ export class ReactivosComponent implements OnInit {
       });
     }
     console.log(this.formulario);
+  }
+
+  cargarDataAlFormulario() {
+    this.formulario.reset({
+      name: 'Francisco',
+      lastName: 'Marin',
+      email: 'francisco@espam.edu.ec',
+      direccion: {
+        distrito: 'Canuto',
+        ciudad: 'Ottawa'
+      }
+    });
+    ['Comer','Chatear'].forEach(valor => this.pasatiempos.push(this.formBuilder.control(valor)));
   }
 }
