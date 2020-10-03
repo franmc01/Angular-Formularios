@@ -35,6 +35,22 @@
     </div>
   </div>
 
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Contraseña</label>
+    <div class="col">
+      <input class="form-control" type="password" placeholder="Ingrese la contraseña" formControlName="pass1" [class.is-invalid]="pass1NoValido">
+      <small *ngIf="pass1NoValido" class="text-danger">Debe completar este campo</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Confirmar contraseña</label>
+    <div class="col">
+      <input class="form-control" type="password" placeholder="Ingrese la contraseña" formControlName="pass2" [class.is-invalid]="pass2NoValido">
+      <small *ngIf="pass2NoValido" class="text-danger">Las contraseñas no coinciden</small>
+    </div>
+  </div>
+
   <div class="form-group row" formGroupName="direccion">
     <label class="col-2 col-form-label">Direccion</label>
     <div class="form-row col">

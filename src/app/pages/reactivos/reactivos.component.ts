@@ -10,24 +10,28 @@ import { ValidacionesMiasService } from '../../services/validaciones-mias.servic
 export class ReactivosComponent implements OnInit {
   formulario: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private validacionesMias:ValidacionesMiasService) {
+  constructor(private formBuilder: FormBuilder, private validacionesMias: ValidacionesMiasService) {
     this.crearFormulario();
     this.cargarDataAlFormulario();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   crearFormulario() {
     this.formulario = this.formBuilder.group({
       // x: ['valorpordefecto', validadoresSincronos, validoresAsync ],
       name: ['', [Validators.required, Validators.minLength(4)]],
       lastName: ['', [Validators.required, Validators.minLength(4), this.validacionesMias.noMarin]],
-      email: [ '', [ Validators.required, Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      email: ['', [Validators.required, Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),],],
+      pass1: ['', [Validators.required]],
+      pass2: ['', [Validators.required]],
       direccion: this.formBuilder.group({
         distrito: ['', [Validators.required, Validators.minLength(4)]],
         ciudad: ['', [Validators.required, Validators.minLength(4)]],
       }),
       pasatiempos: this.formBuilder.array([])
+    },{
+      validators:this.validacionesMias.passwordIguales('pass1','pass2')
     });
   }
 
@@ -60,6 +64,18 @@ export class ReactivosComponent implements OnInit {
       this.formulario.get('direccion.ciudad').touched
     );
   }
+  get pass1NoValido() {
+    return (
+      this.formulario.get('pass1').invalid &&
+      this.formulario.get('pass1').touched
+    );
+  }
+
+  get pass2NoValido() {
+    const pass1 = this.formulario.get('pass1').value;
+    const pass2 = this.formulario.get('pass2').value;
+    return (pass1 === pass2) ? false : true;
+  }
 
   get pasatiempos() {
     return this.formulario.get('pasatiempos') as FormArray;
@@ -67,10 +83,10 @@ export class ReactivosComponent implements OnInit {
 
 
   agregarPasatiempos() {
-    this.pasatiempos.push(this.formBuilder.control('',Validators.required));
+    this.pasatiempos.push(this.formBuilder.control('', Validators.required));
   }
 
-  borrarPasatiempos(i:number) {
+  borrarPasatiempos(i: number) {
     this.pasatiempos.removeAt(i);
   }
 
@@ -78,7 +94,7 @@ export class ReactivosComponent implements OnInit {
     if (this.formulario.invalid) {
       return Object.values(this.formulario.controls).forEach((controls) => {
         if (controls instanceof FormGroup) {
-          Object.values(controls.controls).forEach(control=> control.markAsTouched())
+          Object.values(controls.controls).forEach(control => control.markAsTouched())
         } else {
           controls.markAllAsTouched();
         }
