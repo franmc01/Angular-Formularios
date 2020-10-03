@@ -13,6 +13,7 @@ export class ReactivosComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private validacionesMias: ValidacionesMiasService) {
     this.crearFormulario();
     this.cargarDataAlFormulario();
+    this.crearListeners();
   }
 
   ngOnInit(): void { }
@@ -36,41 +37,18 @@ export class ReactivosComponent implements OnInit {
     });
   }
 
-  get nombreNoValido() {
-    return (
-      this.formulario.get('name').invalid && this.formulario.get('name').touched
-    );
+  crearListeners(){
+    this.formulario.get('name').valueChanges.subscribe(value=>{
+      console.log(value);
+    })
   }
-  get apellidoNoValido() {
-    return (
-      this.formulario.get('lastName').invalid &&
-      this.formulario.get('lastName').touched
-    );
-  }
-  get correoNoValido() {
-    return (
-      this.formulario.get('email').invalid &&
-      this.formulario.get('email').touched
-    );
-  }
-  get distritoNoValido() {
-    return (
-      this.formulario.get('direccion.distrito').invalid &&
-      this.formulario.get('direccion.distrito').touched
-    );
-  }
-  get ciudadNoValido() {
-    return (
-      this.formulario.get('direccion.ciudad').invalid &&
-      this.formulario.get('direccion.ciudad').touched
-    );
-  }
-  get pass1NoValido() {
-    return (
-      this.formulario.get('pass1').invalid &&
-      this.formulario.get('pass1').touched
-    );
-  }
+
+  get nombreNoValido() { return ( this.formulario.get('name').invalid && this.formulario.get('name').touched ); }
+  get apellidoNoValido() { return ( this.formulario.get('lastName').invalid && this.formulario.get('lastName').touched ); }
+  get correoNoValido() { return ( this.formulario.get('email').invalid && this.formulario.get('email').touched ); }
+  get distritoNoValido() { return ( this.formulario.get('direccion.distrito').invalid && this.formulario.get('direccion.distrito').touched ); }
+  get ciudadNoValido() { return ( this.formulario.get('direccion.ciudad').invalid && this.formulario.get('direccion.ciudad').touched ); }
+  get pass1NoValido() { return ( this.formulario.get('pass1').invalid && this.formulario.get('pass1').touched ); }
 
   get pass2NoValido() {
     const pass1 = this.formulario.get('pass1').value;
@@ -78,17 +56,9 @@ export class ReactivosComponent implements OnInit {
     return (pass1 === pass2) ? false : true;
   }
 
-  get usuarioNoValido() {
-    return this.formulario.get('usuario').invalid && this.formulario.get('usuario').touched;
-  }
-
-  get pasatiempos() {
-    return this.formulario.get('pasatiempos') as FormArray;
-  }
-
-  get usuario(){
-    return this.formulario.get('usuario').value;
-  }
+  get usuarioNoValido() { return this.formulario.get('usuario').invalid && this.formulario.get('usuario').touched; }
+  get pasatiempos() { return this.formulario.get('pasatiempos') as FormArray; }
+  get usuario(){ return this.formulario.get('usuario').value; }
 
 
   agregarPasatiempos() {
