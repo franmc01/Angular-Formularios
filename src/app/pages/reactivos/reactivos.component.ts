@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { ValidacionesMiasService } from '../../services/validaciones-mias.service';
 
 @Component({
   selector: 'app-reactivos',
@@ -9,7 +10,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 export class ReactivosComponent implements OnInit {
   formulario: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private validacionesMias:ValidacionesMiasService) {
     this.crearFormulario();
     this.cargarDataAlFormulario();
   }
@@ -20,7 +21,7 @@ export class ReactivosComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       // x: ['valorpordefecto', validadoresSincronos, validoresAsync ],
       name: ['', [Validators.required, Validators.minLength(4)]],
-      lastName: ['', [Validators.required, Validators.minLength(4)]],
+      lastName: ['', [Validators.required, Validators.minLength(4), this.validacionesMias.noMarin]],
       email: [ '', [ Validators.required, Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
       direccion: this.formBuilder.group({
         distrito: ['', [Validators.required, Validators.minLength(4)]],
