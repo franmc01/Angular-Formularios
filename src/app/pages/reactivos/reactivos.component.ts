@@ -66,10 +66,10 @@ export class ReactivosComponent implements OnInit {
 
 
   agregarPasatiempos() {
-    this.pasatiempos.push(this.formBuilder.control('',));
+    this.pasatiempos.push(this.formBuilder.control('',Validators.required));
   }
 
-  borrarPasatiempos(i) {
+  borrarPasatiempos(i:number) {
     this.pasatiempos.removeAt(i);
   }
 
@@ -83,7 +83,10 @@ export class ReactivosComponent implements OnInit {
         }
       });
     }
-    console.log(this.formulario);
+    // console.log(this.formulario);
+
+    //Posteo de la informacion
+    this.formulario.reset();
   }
 
   cargarDataAlFormulario() {
@@ -96,6 +99,6 @@ export class ReactivosComponent implements OnInit {
         ciudad: 'Ottawa'
       }
     });
-    ['Comer','Chatear'].forEach(valor => this.pasatiempos.push(this.formBuilder.control(valor)));
+    ['Comer'].forEach(valor => this.pasatiempos.push(this.formBuilder.control(valor)));
   }
 }
