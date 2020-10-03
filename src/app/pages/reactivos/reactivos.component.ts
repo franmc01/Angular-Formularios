@@ -23,6 +23,7 @@ export class ReactivosComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(4)]],
       lastName: ['', [Validators.required, Validators.minLength(4), this.validacionesMias.noMarin]],
       email: ['', [Validators.required, Validators.pattern('[a-z 0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),],],
+      usuario: ['', , this.validacionesMias.existeUsuario],
       pass1: ['', [Validators.required]],
       pass2: ['', [Validators.required]],
       direccion: this.formBuilder.group({
@@ -30,8 +31,8 @@ export class ReactivosComponent implements OnInit {
         ciudad: ['', [Validators.required, Validators.minLength(4)]],
       }),
       pasatiempos: this.formBuilder.array([])
-    },{
-      validators:this.validacionesMias.passwordIguales('pass1','pass2')
+    }, {
+      validators: this.validacionesMias.passwordIguales('pass1', 'pass2')
     });
   }
 
@@ -77,8 +78,16 @@ export class ReactivosComponent implements OnInit {
     return (pass1 === pass2) ? false : true;
   }
 
+  get usuarioNoValido() {
+    return this.formulario.get('usuario').invalid && this.formulario.get('usuario').touched;
+  }
+
   get pasatiempos() {
     return this.formulario.get('pasatiempos') as FormArray;
+  }
+
+  get usuario(){
+    return this.formulario.get('usuario').value;
   }
 
 
@@ -111,6 +120,8 @@ export class ReactivosComponent implements OnInit {
       name: 'Francisco',
       lastName: 'Marin',
       email: 'francisco@espam.edu.ec',
+      pass1: '123456',
+      pass2: '123456',
       direccion: {
         distrito: 'Canuto',
         ciudad: 'Ottawa'
